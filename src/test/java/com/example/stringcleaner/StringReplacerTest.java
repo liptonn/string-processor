@@ -46,7 +46,9 @@ class StringReplacerTest {
         Stream.of(
                 new String[]{"d", "abcccbad"},
                 new String[]{"", "aabbb"},
-                new String[]{"aa", "bbba"}
+                new String[]{"aa", "bbba"},
+                new String[]{"bc", "cccccddeeee"},
+                new String[]{"gdkn", "hhheeellllloooo"}
         ).forEach(tc -> assertEquals(tc[0], replacer.process(tc[1])));
     }
 
@@ -55,7 +57,48 @@ class StringReplacerTest {
         StringReplacer replacer = new StringReplacer();
         Stream.of(
                 new String[]{"bcd", "aaabcd"},
-                new String[]{"wxy", "xxxyyyzzz"}
+                new String[]{"wxy", "xxxyyyzzz"},
+                new String[]{null, null},
+                new String[]{"", ""},
+                new String[]{"a", "a"},
+                new String[]{"", "aaaaaaaaaa"},
+                new String[]{"b", "cccccccccc"},
+                new String[]{"a", "bbbb"}
+        ).forEach(tc -> assertEquals(tc[0], replacer.process(tc[1])));
+    }
+
+    @Test
+    void testBasicReplacement() {
+        StringReplacer replacer = new StringReplacer();
+        Stream.of(
+                new String[]{"b", "ccc"},
+                new String[]{"a", "bbb"},
+                new String[]{"", "aaa"},
+                new String[]{"d", "abcccbad"},
+                new String[]{"aa", "bbba"}
+        ).forEach(tc -> assertEquals(tc[0], replacer.process(tc[1])));
+    }
+
+
+
+    @Test
+    void testNoReplacementNeeded() {
+        StringReplacer replacer = new StringReplacer();
+        Stream.of(
+                "a", "aa", "abc", "aabbcc", "xyz", "abcdefghijklmnopqrstuvwxyz"
+        ).forEach(input -> assertEquals(input, replacer.process(input)));
+    }
+
+    @Test
+    void testSpecialCharacterA() {
+        StringReplacer replacer = new StringReplacer();
+        Stream.of(
+                new String[]{"", "aaa"},
+                new String[]{"", "aaaa"},
+                new String[]{"b", "aaab"},
+                new String[]{"", "aabbb"},
+                new String[]{"bcd", "aaabcd"},
+                new String[]{"", "aaaaaa"}
         ).forEach(tc -> assertEquals(tc[0], replacer.process(tc[1])));
     }
 }
